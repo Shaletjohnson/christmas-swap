@@ -1,0 +1,37 @@
+Option 1: Add a new group 
+    1. Select: Enter name of your group 
+    2. Select: Enter budget
+    3. Select: Add participants
+        a. Prompt: Add Participant name 
+    5. Select: 
+        a. Select: Add next participant
+        b. Select: Done adding  
+Option 2: Edit existing group 
+    1. Select: Select group from list
+        a. Display all created groups
+            1. Select: Add new name
+                a. Prompt: What is the name?  
+            2. Select: Change budget
+                a. Prompt: What is the budget? 
+            3. Select: Return to main menu 
+Option 3: View current assignments
+    1. Select: Select group
+        a. show list of added groups
+            i. show list of assignments 
+    2. Select: Return to Menu
+
+
+
+    Add group lock? 
+    How to assign when you add a new participant 
+    give dislaimer on adding a user will break assignments 
+    Would like to work recurring 
+    assing number to each entry? 
+
+    Pair 2 strings 
+    rotate list 
+    
+    
+
+
+
