@@ -1,0 +1,23 @@
+DROP DATABASE IF EXISTS christmas_swap;
+
+CREATE DATABASE christmas_swap;
+
+USE christmas_swap;
+
+
+CREATE TABLE groups (
+    id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    group_name varchar(255),
+    budget int
+);
+
+CREATE TABLE people (
+    id int PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    first_name varchar(255),
+    group_id int,
+
+    FOREIGN KEY (group_id) REFERENCES groups(id)
+);
+
+
+

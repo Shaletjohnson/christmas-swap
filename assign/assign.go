@@ -1,4 +1,21 @@
-package giftassignment
+package assign
+
+import "database/sql"
+
+type SwapService struct {
+	db *sql.DB
+}
+
+func NewService(db *sql.DB) *SwapService {
+	return &SwapService{
+		db: db,
+	}
+}
+
+const (
+	insertGroupQuery  = "INSERT INTO groups (group_name, budget) VALUES (?,?)"
+	insertPeopleQuery = "INSERT INTO people (first_name) VALUES (?)"
+)
 
 var group *Group
 
@@ -24,8 +41,13 @@ type YearAssignment struct {
 }
 
 // AddPerson is to add people to your list for func Assign to handle
-func (g *Group) AddPerson(person string) {
-	g.persons = append(g.persons, person)
+func (s *SwapService) AddPerson(person string) error {
+	_, err := s.db.Exec(insertPeopleQuery)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
 
 // Assign the givers and receivers using Assignment struct

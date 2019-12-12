@@ -3,10 +3,12 @@ package main
 import (
 	"errors"
 	"fmt"
+	"os"
 	"strconv"
 
 	"github.com/manifoldco/promptui"
-	"github.com/shaletjohnson/christmas-swap/giftassignment"
+	"github.com/shaletjohnson/christmas-swap/assign"
+	"github.com/shaletjohnson/christmas-swap/db"
 )
 
 const (
@@ -16,11 +18,21 @@ const (
 	addPeople       = "Add a new person to your group"
 )
 
-func main() {
-	//add for loop for it to return to main func when it ends prompts to add people
-	fmt.Println()
+var swapService *assign.SwapService
 
-	//create variable to call newgroup and store values to append
+func main() {
+
+	db, err := db.ConnectDatabase("assign_db.config")
+	if err != nil {
+		fmt.Println("Error:", err.Error())
+		os.Exit(1)
+	}
+	swapService = assign.NewService(db)
+	for {
+
+	}
+
+	fmt.Println()
 
 	for {
 		prompt := promptui.Select{
@@ -47,7 +59,7 @@ func main() {
 			}
 
 		case viewAssignments:
-			err := viewAssignmentsPrompt(giftassignment.GetGroup())
+			err := viewAssignmentsPrompt(assign.GetGroup())
 			if err != nil {
 				fmt.Printf("Prompt failed %v\n", err)
 				return
@@ -71,12 +83,12 @@ func newGroupPrompt() error {
 		return err
 	}
 
-	newGroup := &giftassignment.Group{
+	newGroup := &assign.Group{
 		Name:   name,
 		Budget: budget,
 	}
 
-	giftassignment.SetGroup(newGroup)
+	assign.SetGroup(newGroup)
 
 	fmt.Printf("You have added the Group %vwith a budget of $%v", name, budget)
 
@@ -90,10 +102,10 @@ func newGroupPrompt() error {
 	return nil
 }
 
-func viewAssignmentsPrompt(group *giftassignment.Group) error {
-
+func viewAssignmentsPrompt(group *assign.Group) error {
+	//loop through year assignments, print only current year time package,
 	availableAssignments := group.ListAssignments()
-	fmt.Println(availableAssignments)
+	fmt.Printf("%s\n", availableAssignments)
 
 	if len(availableAssignments) == 0 {
 		fmt.Println("No assignments have been made yet!")
@@ -102,8 +114,8 @@ func viewAssignmentsPrompt(group *giftassignment.Group) error {
 	return nil
 }
 
-func peoplePrompt(newGroup *giftassignment.Group) error {
-	//giftassignment.AddPerson()
+func peoplePrompt(newGroup *assign.Group) error {
+	//assign.AddPerson()
 	for {
 		fmt.Println()
 
@@ -129,7 +141,8 @@ func peoplePrompt(newGroup *giftassignment.Group) error {
 			if err != nil {
 				return err
 			}
-			newGroup.AddPerson(name)
+			// probably need to replace this with a database reference
+			//newGroup.AddPerson(name) with insertpersonQuery most likely
 
 		case finish:
 
